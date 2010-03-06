@@ -4,6 +4,7 @@
 \documentclass[11pt]{article}
 \usepackage{listings}
 \usepackage{amsmath}
+\usepackage[inside]{coordsys}
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \begin{document}         
@@ -101,7 +102,57 @@ We solve for $w_1 = w_3 = \frac{h}{3}$ and from $w_1 + w_2 + w_3 = 2h$, we solve
 \pagebreak
 \section*{Exercise 18.4}
 
+The interval [-10,10] may be evaluated at 4 points like this using $N = 4$:
+
+\begin{center}
+\setlength{\unitlength}{.2in}
+\begin{picture}(10,2)(-3,-1)
+    \numbline[1]{-10}{11}
+    \interval[-7.5,-7.5]
+    \interval[-2.5,-2.5]
+    \interval[2.5,-2.5]
+    \interval[7.5,7.5]
+\end{picture} 
+\end{center}
+Now, a naive approach to reevaluating the function for $N = 8$ points would try something like this:
+\begin{center}
+\setlength{\unitlength}{.2in}
+\begin{picture}(10,2)(-3,-1)
+    \numbline[1]{-10}{11}
+    \interval[-8.75,-8.75]
+    \interval[-6.25,-6.25]
+    \interval[-3.75,-3.75]
+    \interval[-1.25,-1.25]
+    \interval[1.25,1.25]
+    \interval[3.75,3.75]
+    \interval[6.25,6.25]
+    \interval[8.75,8.75]
+\end{picture} 
+\end{center}
+But none of the points have matched up from the second evaluation! We have to reevaluate every single point! This is terrible, and clearly not a good way to proceed.
+
+Luckily, we can easily rectify this by simply "shifting" the points from the second evaulation to line up with the first evaulation, like this:
+\begin{center}
+\setlength{\unitlength}{.2in}
+\begin{picture}(10,2)(-3,-1)
+    \numbline[1]{-10}{11}
+    \interval[-7.5,-7.5]
+    \interval[-2.5,-2.5]
+    \interval[2.5,-2.5]
+    \interval[7.5,7.5]
+    \interval[-5.0,-5.0]
+    \interval[0,0]
+    \interval[5,5]
+    \interval[10,10]
+\end{picture} 
+\end{center}
+Now we only need to evaulate 4 more points: $f(-5),f(0),f(5),f(10)$ and reusing the old points we evaluated for the previous quadrature evaluation. In general, to double $N$, we need only compute $N$ more points.
+
+This method of reusing old points works very well when we need to go "backwards", too. That is, say we have already computed $N$ points for some evaluation. Now we want a worse precision (for some reason or other) by only counting $N/2$ points. Why would we ever want to do this, you ask? I have no idea. Still, we can simply reuse the old points by "shifting" our evaluation to make them line up, and never have to compute more points if we go "backwards" in our accuracy. 
+
 \section*{Exercise 18.5}
+
+
 
 \section*{Exercise 18.6}
 
