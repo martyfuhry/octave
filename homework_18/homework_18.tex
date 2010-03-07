@@ -148,23 +148,168 @@ Luckily, we can easily rectify this by simply "shifting" the points from the sec
 \end{center}
 Now we only need to evaulate 4 more points: $f(-5),f(0),f(5),f(10)$ and reusing the old points we evaluated for the previous quadrature evaluation. In general, to double $N$, we need only compute $N$ more points.
 
-This method of reusing old points works very well when we need to go "backwards", too. That is, say we have already computed $N$ points for some evaluation. Now we want a worse precision (for some reason or other) by only counting $N/2$ points. Why would we ever want to do this, you ask? I have no idea. Still, we can simply reuse the old points by "shifting" our evaluation to make them line up, and never have to compute more points if we go "backwards" in our accuracy. 
+However, this method is only suitable for quadrature rules which are only concerned with endpoints. That is,
+a midpoint rule would NOT be able to take advantage of this optimization since the midpoints would no longer
+be midpoints after each evaluation. We would need to either keep every midpoint and shrink the computed integral
+range, or just reevaluate new midpoints for each and every new iteration.
 
+A composite midpoint rule, then, would not be able to reuse any points from this algorithm. It would have to 
+recompute points after each and every iteration without any reuse. 
+\pagebreak
 \section*{Exercise 18.5}
+\subsection*{Part (a)}
+We'll start by using the Taylor Expansion of $f(x)$ about the point
+$h/2$:
+\begin{align*}
+    f(x) = f(h/2) + (x-h/2)f'(h/2) + 1/2(x - h/2)^2f''(h/2) + \cdots
+\end{align*}
+Then, 
+\begin{align*}
+    \int_0^h f(x)dx = hf(h/2) + 1/24 h^3 f''(x) + \cdots
+\end{align*}
+Now, we're interested in finding the error between the actual
+value and the computed value. Now, we compute a different value
+for each h, and each $T(f)$ looks like:
+\begin{align*}
+    T(f) = h/2(f(0) + f(h)).
+\end{align*}
+We solve for $f(0)$ and $f(h)$ using the Taylor Expansion.
+\begin{align*}
+    f(0) = f(h/2) + -h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots\\
+    f(x) = f(h/2) + h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots.
+\end{align*}
+Then, when we add these together, the first order $h$ is eliminated
+and we are left with:
+\begin{align*}
+    h/2(f(0) + f(h)) = hf(h/2) + 1/8 h^3 f''(h/2) + \cdots.
+\end{align*}
+
+\subsection*{Part (b)}
+
+Now, we can this equation to solve for the highest order part of our
+error equation:
+\begin{flalign*}
+    \int_0^h f(x)dx - T(f) &= hf(h/2) + 1/24 h^3 f''(h/2) + \cdots  \\
+                           &- hf(h/2) - 1/8 h^3 f''(h/2) -\cdots\\
+                           &\approx 1/24 h^3 f''(h/2) - 1/8 h^3 f''(h/2)\\
+                           &\approx -1/12 h^3 f''(h/2).
+\end{flalign*}
+So this is the error for each composite $h$. When we add all the errors
+together for the entire quadrature, we get
+\begin{flalign*}
+    &(N-1) * (-1/12 h^3 f''(h/2)) =\\
+    h&(N-1) * (-1/12 h^2 f''(h/2)) =\\
+    &(b - a) * (-1/12 h^2 f''(h/2)).
+\end{flalign*}
+This tells us that our error term is $O(h^2)$. When $h$ is halfed, we should be able to reduce error by a magnitude $1/4$. 
+
+Note: I'm not sure about that negative sign. I must have checked over my
+equations a dozen times and didn't see anything offensive. Though, I'm not
+sure if the negative sign isn't supposed to be there. Maybe when we have 
+a positive second derivative (a concave up function), we will approximate
+small. That is, we will get less than the appropriate value. Of course, all these
+error functions are only concerned with the absolute value of our error, anyway,
+so this really shouldn't be an issue.
 
 
+\subsection*{Part (c)}
 
+We can finally use the awesome optimization discussed in Exercise 18.4. For our first
+iteration, we compute $f(a)$ and $f(b)$. Imagine we are using the compositive trapezoid
+quadrature rule on the interval [-10,10], as before. We first use only $f(-10)$ and $f(10)$:
+\begin{center}
+\setlength{\unitlength}{.2in}
+\begin{picture}(10,2)(-3,-1)
+    \numbline[1]{-10}{11}
+    \interval[-10,-10]
+    \interval[10,10]
+\end{picture}
+\end{center}
+
+Then, when we want to increase our accuracy, we divide our interval into two subintervals by
+using the point $f(0)$.
+\begin{center}
+\setlength{\unitlength}{.2in}
+\begin{picture}(10,2)(-3,-1)
+    \numbline[1]{-10}{11}
+    \interval[-10,-10]
+    \interval[10,10]
+    \interval[0,0]
+\end{picture}
+\end{center}
+
+We now have a more accurate approximation, but we only evaluated one more point. In general, 
+we can reuse all of our points after every iteration. That means, to compute $T_{h/2}(f)$, we
+need to only evaluate half of the points used by reusing all of the old points from $T_h(f)$.
+\pagebreak
 \section*{Exercise 18.6}
+
+This program will calculate the quadrature using the composite midpoint rule at $N$ distinct
+points.
+\lstinputlisting{problem_18_6.m}
+
+
+When we run this for $N=2$, we obtain the 'exact' value using Octave's 'quad' command, which uses
+Gaussian Quadrature and yields -1.1351. The following table shows the composite midpoint rule's
+computed values and errors for different values of $N$.
+
+\vspace{5mm}
+\begin{tabular}{| l |  l | l |}
+\hline
+$N$ & Computed Value & Error   \\
+2   & -0.93005       & 0.20506 \\
+10  & -1.0347        & 0.10036\\
+100 & -1.1142        & 0.020936\\
+\hline
+\end{tabular}
+\vspace{5mm}
+
+Clearly, as we evaluate at more and more points, we reduce our error, as expected.
 
 \section*{Exercise 18.7}
 
-% Import Program 
-%\lstinputlisting{problem_17_1.m}
+We would like to solve
+\begin{align*}
+    \int_0^1 f(x)dx = \int_0^1 p(x)*ln(x)dx.
+\end{align*}
+We set up a linearly system of equations for different polynomials for $p(x)$. We would
+like to determine the best possible weights to solve a polynomial of highest accuracy.
+\begin{flalign*}
+    p(x) = 1: \int_0^1 ln(x)dx  &= w_1 + w_2\\
+    p(x) = x: \int_0^1 xln(x)dx &= w_1 x_1 + w_2 x_2\\
+\end{flalign*}
+Solve for the left hand sides by using integration by parts:
+\begin{align*}
+    \int_0^1 ln(x)dx\\
+    u  = ln(x) \hspace{3mm} v = x\\
+    du = 1/x   \hspace{3mm} dv = dx\\
+    uv - \int_0^1 vdu\\
+    =ln(x)x - \int_0^1dx\\
+    =ln(x)x - x |_0^1\\
+    =ln(1)*1 - 1 -ln(0)*0 - 0\\
+    =-1
+\end{align*}
+Similarly,
+\begin{flalign*}
+    \int_0^1 xln(x)dx\\
+    u  = ln(x) \hspace{3mm} v  = 1/2x^2\\
+    du = 1/x \hspace{3mm} dv = x\\
+    uv - \int_0^1 vdu\\
+    =1/2ln(x)x^2 - \int_0^1 1/2*x^2 * 1/x dx\\
+    =1/2ln(x)x^2 - 1/4x^2 |_0^1\\
+    =-1/4
+\end{flalign*}
+With $x_1 = 1/3$ and $x_2 = 2/3$, we solve
+\begin{flalign*}
+    -1 &= w_1 + w_2\\
+    -1/4 &= 1/3 * w_1 + 2/3 * w_2
+\end{flalign*}
 
-% Import Graph
-%\begin{center}
-%\includegraphics[scale=0.5]{problem_17_1_graph.png}
-%\end{center}
-
+We obtain solutions $w_1 = 1/4$ and $w_2 = -5/4$. Then,
+\begin{flalign*}
+    \int_0^1 f(x) dx &\approx 1/4 * f(1/3) - 5/4 * f(2/3)\\
+                     &\approx 0.48354.
+\end{flalign*}
+This is wildly unaccurate.
 % Stop your text
 \end{document}
