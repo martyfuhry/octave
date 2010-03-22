@@ -79,7 +79,7 @@ We'll again use the spectral factorization of $A$:
     A &= VDV^{-1}
 \end{flalign*}
 The main question here is, "Does $A^{1/2} = VD^{1/2}V^{-1}?$" Let's start by 
-defining the $nxn$ matrix $M$ such that $A = MM$. Then,
+defining the $n$ x $n$ matrix $M$ such that $A = MM$. Then,
 \begin{flalign*}
     Ax &= \lambda x\\
     MMx &= \lambda x.
@@ -344,7 +344,7 @@ This has been done in the notes, so I'll just use
 We can solve for the eigenvalues of $A$ by using the eig() command in Octave, or
 we can derive them quite simply from the characteristic equation 
 \begin{flalign*}
-    p_A(z) &= (-\lambda)(\lambda)(-10 - \lambda) - (-10 - \lambda)\\
+    p_A(z) &= (-\lambda)(-\lambda)(-10 - \lambda) - (-10 - \lambda)\\
            &= -\lambda^3 -10\lambda^2 + \lambda + 10.
 \end{flalign*}
 Using Octave, we obtain eigenvectors $v_1, v_2, v_3$ corresponding to 
@@ -353,9 +353,9 @@ eigenvalues:
     \begin{array}{lll}
     \lambda_1 = -10, & \lambda_2 = -1, & \lambda_3 = 1\\
     v_1 = \left[ \begin{array}{c}
-    0\\
-    0\\
-    1
+    -0.01005\\
+    0.10049\\
+    0.99489
     \end{array} \right], &
     v_2 = \left[ \begin{array}{c}
     -0.70711\\
@@ -386,9 +386,9 @@ Since we know three seperate solutions to the equation $x(t)$:
 \begin{flalign*}
     \begin{array}{ccc}
     x_1(t) &= \eta_1 e ^{r_1 t} &= \left[ \begin{array}{c}
-                                 0\\
-                                 0\\
-                                 1
+    -0.01005\\
+    0.10049\\
+    0.99489
                                  \end{array} \right] e^{-10t}\\
     x_2(t) &= \eta_2 e ^{r_2 t} &= \left[ \begin{array}{c}
                                  -0.70711\\
@@ -416,46 +416,65 @@ of these solutions is not zero.
     =& -2e^{-10t}(0.70711)^2.
 \end{flalign*}
 $W[x_1, w_2, w_3](t)$ is never zero $\forall t$, so the solutions $x_1, x_2, x_3$ form a 
-fundamental set of solutions. We'll use the method of variation of parameters to solve
-for the general set of solutions to the nonhomogenous equation. We will construct the matrix
-$\Psi$ which will consist of the fundamental set of solutions. 
+fundamental set of solutions. We'll use the method of undetermined coeffients to solve this
+Assume $x(t)$ is of the form $x(t) = ae^{10t} + be^{-t} + ce^{t} + d$ where $a, b, c, $ and $d$ are
+constants to be determined. Then, $\frac{d}{dt}x(t) = -10ae^{-10t} - be^{-t} + ce^{t}$.
+\begin{flalign}
+\label{coeff}
+    \frac{d}{dt} x(t) &= Ax(t)\\
+    -10ae^{-10t} -be^{-t} +ce^{t} &= A(ae^{-10t}+be^{-t}+ce^{t} +d)
+\end{flalign}
+We then determine coefficient vectors $a, b, c, $and $d$ by matching up coefficients from
+\label{coeff}.
 \begin{flalign*}
-    \Psi (t) =& \left[ 
-        \begin{array}{ccc}
-           0        & -0.70711 e^{-t} & 0.70711 e^t\\
-           0        & 0.70711  e^{-t} & 0.70711 e^t\\
-           e^{-10t} &   0             & 0
-           \end{array} \right].
+    -10*a &= Aa\\
+    -1*b &= Ab\\
+     1*c &= Ac\\
+       0 &= Ad
 \end{flalign*}
-Then, we will solve for $u(t)$ where $c = [c_1, c_2, c_3]^T$ and $g(t)$ is the 
-extra vector $g(t) = [0, F_g/m, v/l]$.
+Each of these solutions is the eigenvalue and eigenvector corresponding to the 
+specific variables. Then $a = x_1$, $b = x_2$, $c = x_3$, and $d = [0, 0, 0]^T$
+since there was no zero eigenvalue.
 
+The general solution is determined by adding together the fundamental set of solutions
+with their appropriate coefficients.
 \begin{flalign*}
-    &x = \Psi (t)u(t)\\
-    &x'(t) = \Psi '(t)u(t) + \Psi (t)u'(t) = Ax(t) + g(t)\\
-    &\implies \Psi (t) u'(t) = g(t)\\
-    &\implies u'(t) = \Psi^{-1}g(t)\\
-    &\implies u(t) = \int \Psi^{-1}g(t) {dt} + c.
+    x(t) =& x_1 + x_2 + x_3 \\
+         =& \left[ \begin{array}{c}
+             -0.01005\\
+              0.10049\\
+              0.99489
+              \end{array} \right] e^{-10t} + 
+            \left[ \begin{array}{c}
+              -0.70711\\
+              0.70711\\
+              0
+            \end{array} \right] e^{-t} +
+            \left[ \begin{array}{c}
+              0.70711\\
+              0.70711\\
+              0
+             \end{array} \right] e^t.
 \end{flalign*}
-This reduces to solving
+Plotting the solution of our solution yields this 3-D graph.
+% Import Graph
+\begin{center}
+\includegraphics[scale=0.5]{problem_19_17.png}
+\end{center}
+
+We can see that from our solutions, as $t$ grows without bound, 
+$x_3 e^{t}$ will increase to infinity.
+
+We should ook at the solution of $y(t)$, too. 
 \begin{flalign*}
-    u(t) =& \int \Psi ^{-1}g(t)\\ 
-         =& \left[ 
-            \begin{array}{c}
-            \int e^{-10t}dt\\
-            \int (0.70711) e^{-t}dt\\
-            \int (0.70711) e^tdt
-            \end{array} \right] + c\\
-          =& \left[ \begin{array}{c}
-             -0.1 e^{-10t}\\
-             -e^{-t}\\
-             e^t
-            \end{array} 
-            \right]+ c
+    y(t) =& \left[ 1, 0, 0 \right]
+           \left[\begin{array}{c}
+            x_1 \\
+            x_2 \\
+            x_3
+            \end{array}\right]\\
+         =& x_1
 \end{flalign*}
-
-
-
 
 % 19.17-19
 % Import Program 
