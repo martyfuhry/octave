@@ -165,7 +165,7 @@ $h/2$:
 \end{align*}
 Then, 
 \begin{align*}
-    \int_0^h f(x)dx = hf(h/2) + 1/24 h^3 f''(x) + \cdots
+    \int_0^h f(x)dx = hf(h/2) + 1/24 h^3 f''(h/2) + \cdots
 \end{align*}
 Now, we're interested in finding the error between the actual
 value and the computed value. Now, we compute a different value
@@ -174,10 +174,10 @@ for each h, and each $T(f)$ looks like:
     T(f) = h/2(f(0) + f(h)).
 \end{align*}
 We solve for $f(0)$ and $f(h)$ using the Taylor Expansion.
-\begin{align*}
-    f(0) = f(h/2) + -h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots\\
-    f(x) = f(h/2) + h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots.
-\end{align*}
+\begin{flalign*}
+    f(0) &= f(h/2) + -h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots\\
+    f(h/2) &= f(h/2) + h/2f'(h/2) + 1/2(h/2)^2f''(h/2) + \cdots.
+\end{flalign*}
 Then, when we add these together, the first order $h$ is eliminated
 and we are left with:
 \begin{align*}
@@ -257,9 +257,9 @@ computed values and errors for different values of $N$.
 \begin{tabular}{| l |  l | l |}
 \hline
 $N$ & Computed Value & Error   \\
-2   & -0.93005       & 0.20506 \\
-10  & -1.0347        & 0.10036\\
-100 & -1.1142        & 0.020936\\
+2   & -0.99030       & 0.21254 \\
+10  & -1.10160       & 0.033505\\
+100 & -1.1317        & 0.0034049\\
 \hline
 \end{tabular}
 \vspace{5mm}
@@ -299,7 +299,7 @@ Similarly,
     =1/2ln(x)x^2 - 1/4x^2 |_0^1\\
     =-1/4
 \end{flalign*}
-With $x_1 = 1/3$ and $x_2 = 2/3$, we solve
+With $x_1 = 1/4$ and $x_2 = 3/4$, we solve
 \begin{flalign*}
     -1 &= w_1 + w_2\\
     -1/4 &= 1/3 * w_1 + 2/3 * w_2
@@ -307,9 +307,10 @@ With $x_1 = 1/3$ and $x_2 = 2/3$, we solve
 
 We obtain solutions $w_1 = 1/4$ and $w_2 = -5/4$. Then,
 \begin{flalign*}
-    \int_0^1 f(x) dx &\approx 1/4 * f(1/3) - 5/4 * f(2/3)\\
-                     &\approx 0.48354.
+    \int_0^1 f(x) dx &\approx \sum_{j=1}^N p(x_j)*w_j\\
+                     &= e^{(1/4)^2} * 1/4 + e^{(3/4)^2} * -5/4\\
+                     &\approx -1.9105.
 \end{flalign*}
-This is wildly unaccurate.
+This is pretty decent.
 % Stop your text
 \end{document}

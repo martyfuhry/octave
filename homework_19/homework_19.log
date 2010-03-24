@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2010.2.28)  22 MAR 2010 01:07
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.3.23)  22 MAR 2010 17:29
 entering extended mode
  %&-line parsing enabled.
 **homework_19.tex
@@ -76,6 +76,12 @@ Package: amsthm 2004/08/06 v2.20
 \thm@headsep=\skip45
 \dth@everypar=\toks22
 )
+(/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks23
+\verbatim@line=\toks24
+\verbatim@in@stream=\read1
+)
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip46
@@ -86,7 +92,7 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks23
+\@emptytoks=\toks25
 \ex@=\dimen107
 ))
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
@@ -116,21 +122,21 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \dotsspace@=\muskip10
 \c@parentequation=\count103
 \dspbrk@lvl=\count104
-\tag@help=\toks24
+\tag@help=\toks26
 \row@=\count105
 \column@=\count106
 \maxfields@=\count107
-\andhelp@=\toks25
+\andhelp@=\toks27
 \eqnshift@=\dimen110
 \alignsep@=\dimen111
 \tagshift@=\dimen112
 \tagwidth@=\dimen113
 \totwidth@=\dimen114
 \lineht@=\dimen115
-\@envbody=\toks26
+\@envbody=\toks28
 \multlinegap=\skip47
 \multlinetaggap=\skip48
-\mathdisplay@stack=\toks27
+\mathdisplay@stack=\toks29
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
@@ -154,34 +160,30 @@ File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
 ))
 \Gin@req@height=\dimen116
 \Gin@req@width=\dimen117
-) (./homework_19.aux
-
-LaTeX Warning: Label `coeff' multiply defined.
-
-)
+) (./homework_19.aux)
 \openout1 = `homework_19.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
  (/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 30.
+LaTeX Font Info:    Try loading font information for U+msa on input line 31.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 30.
+LaTeX Font Info:    Try loading font information for U+msb on input line 31.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
@@ -195,7 +197,7 @@ File: problem_19_8.png Graphic file (type png)
 File: problem_19_8_negate.png Graphic file (type png)
 
 <use problem_19_8_negate.png> [5 <./problem_19_8.png (PNG copy)>]
-Overfull \hbox (37.32011pt too wide) in paragraph at lines 220--222
+Overfull \hbox (37.32011pt too wide) in paragraph at lines 221--223
 []\OT1/cmr/m/n/10.95 Let's ex-am-ine our eigen-vec-tors. These cor-re-spond to 
 $\OML/cmm/m/it/10.95 ^^U \OT1/cmr/m/n/10.95 = 34\OML/cmm/m/it/10.95 ; \OT1/cmr/
 m/n/10.95 8\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 94427\OML/cmm/m/it/10.95 ; \
@@ -204,19 +206,27 @@ OMS/cmsy/m/n/10.95 ^^@\OT1/cmr/m/n/10.95 8\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.
  []
 
 [6 <./problem_19_8_negate.png (PNG copy)>] [7] [8] [9]
-<problem_19_17.png, id=49, 642.4pt x 481.8pt>
+
+LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 453.
+
+
+Overfull \hbox (34.80592pt too wide) in paragraph at lines 485--485
+[] 
+ []
+
+[10] <problem_19_17.png, id=52, 642.4pt x 481.8pt>
 File: problem_19_17.png Graphic file (type png)
- <use problem_19_17.png> [10]
+ <use problem_19_17.png>
 [11 <./problem_19_17.png (PNG copy)>] (./homework_19.aux)
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 2553 strings out of 95086
- 33796 string characters out of 1183255
- 122941 words of memory out of 1500000
- 5718 multiletter control sequences out of 10000+50000
+ 2582 strings out of 95086
+ 34308 string characters out of 1183255
+ 124512 words of memory out of 1500000
+ 5744 multiletter control sequences out of 10000+50000
  9715 words of font info for 37 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
  27i,19n,40p,228b,240s stack positions out of 5000i,500n,6000p,200000b,5000s
@@ -232,7 +242,7 @@ luesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy8.pfb
 ></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf-
 texlive/fonts/type1/bluesky/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1
 /bluesky/ams/msbm10.pfb>
-Output written on homework_19.pdf (11 pages, 113016 bytes).
+Output written on homework_19.pdf (11 pages, 110750 bytes).
 PDF statistics:
  104 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)

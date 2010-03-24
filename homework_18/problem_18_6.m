@@ -6,14 +6,14 @@ b = 1;
 exact = quad(@f,0,1);
 
 % define N and h for 2 nodes
-N = 2;
-h = (b - a) / (N +1);
+N = 100;
+h = (b - a) / (N);
 
 % generate x and f(x)
 x = [];
 y = [];
 for j = 1:N
-    x(j) = a + j*h;
+    x(j) = a + (j - .5)*h;
     y(j) = f(x(j));
 end
 

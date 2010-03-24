@@ -6,7 +6,7 @@ G = 6.67e-11; % gravitational constant
 
 % define a few constants
 theta = G*M / (r*v^2); 
-x     = 0;
+x     = 1e-15;
 
 % function we want to zero
 function f = f(z,theta)
@@ -19,6 +19,6 @@ function fp = fp(z,theta)
 end
 
 % use Newton's Method
-while abs(f(x,theta)) > 1e-16
+while abs(f(x,theta)) > 1e-20
    x = x -f(x,theta) / fp(x,theta); 
 end

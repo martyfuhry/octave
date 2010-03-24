@@ -9,6 +9,7 @@
 \usepackage{listings}
 \usepackage{amsfonts}
 \usepackage{amsthm}
+\usepackage{verbatim}
 \usepackage[fleqn]{amsmath}
 \usepackage{graphicx}
 \begin{document}         
@@ -422,7 +423,7 @@ constants to be determined. Then, $\frac{d}{dt}x(t) = -10ae^{-10t} - be^{-t} + c
 \begin{flalign}
 \label{coeff}
     \frac{d}{dt} x(t) &= Ax(t)\\
-    -10ae^{-10t} -be^{-t} +ce^{t} &= A(ae^{-10t}+be^{-t}+ce^{t} +d)
+    -10ae^{-10t} -be^{-t} +ce^{t} &= A(ae^{-10t}+be^{-t}+ce^{t} +d) + g
 \end{flalign}
 We then determine coefficient vectors $a, b, c, $and $d$ by matching up coefficients from
 \label{coeff}.
@@ -430,16 +431,37 @@ We then determine coefficient vectors $a, b, c, $and $d$ by matching up coeffici
     -10*a &= Aa\\
     -1*b &= Ab\\
      1*c &= Ac\\
-       0 &= Ad
+       0 &= Ad + g
 \end{flalign*}
 Each of these solutions is the eigenvalue and eigenvector corresponding to the 
-specific variables. Then $a = x_1$, $b = x_2$, $c = x_3$, and $d = [0, 0, 0]^T$
-since there was no zero eigenvalue.
+specific variables. Then $a = x_1$, $b = x_2$, $c = x_3$, and $Ad = -g$.
 
+\begin{align*}
+    Ad = -g\\
+    \left[\begin{array}{ccc}
+        0 & 1 & 0\\
+        1 & 0 & -1\\
+        0 & 0 & -10
+    \end{array}\right] d =
+    \left[\begin{array}{c}
+        0\\
+        1\\
+        1
+    \end{array}\right]
+\end{align*}
+We can solve for $d$ quite simply through Octave by the command 
+\begin{verbatim}d = A\g\end{verbatim}.
+\begin{align*}
+    d = \left[\begin{array}{c}
+        0.9\\
+        0\\
+        0.1
+        \end{array}\right].
+\end{align*}
 The general solution is determined by adding together the fundamental set of solutions
 with their appropriate coefficients.
 \begin{flalign*}
-    x(t) =& x_1 + x_2 + x_3 \\
+    x(t) =& x_1 + x_2 + x_3 + d \\
          =& \left[ \begin{array}{c}
              -0.01005\\
               0.10049\\
@@ -454,27 +476,26 @@ with their appropriate coefficients.
               0.70711\\
               0.70711\\
               0
-             \end{array} \right] e^t.
+             \end{array} \right] e^t + 
+            \left[ \begin{array}{c}
+              0.9\\
+              0\\
+              0.1
+             \end{array} \right].
 \end{flalign*}
-Plotting the solution of our solution yields this 3-D graph.
+We can see that from our solutions, as $t$ grows without bound, 
+$x_3 e^{t}$ will increase to infinity.
+
+We should ook at the solution of $y(t)$, too, which is just
+the first row of our solution $x(t)$.
+\begin{align*}
+    y(t) = -.01005*e^{-10t}-.70711*e{-t}+.70711*e^{t}+.9
+\end{align*}
+
 % Import Graph
 \begin{center}
 \includegraphics[scale=0.5]{problem_19_17.png}
 \end{center}
-
-We can see that from our solutions, as $t$ grows without bound, 
-$x_3 e^{t}$ will increase to infinity.
-
-We should ook at the solution of $y(t)$, too. 
-\begin{flalign*}
-    y(t) =& \left[ 1, 0, 0 \right]
-           \left[\begin{array}{c}
-            x_1 \\
-            x_2 \\
-            x_3
-            \end{array}\right]\\
-         =& x_1
-\end{flalign*}
 
 % 19.17-19
 % Import Program 
@@ -483,6 +504,6 @@ We should ook at the solution of $y(t)$, too.
 %\begin{center}
 %\includegraphics[scale=0.5]{problem_17_1_graph.png}
 %\end{center}
-
 % Stop your text
+
 \end{document}
