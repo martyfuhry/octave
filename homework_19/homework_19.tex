@@ -421,12 +421,12 @@ fundamental set of solutions. We'll use the method of undetermined coeffients to
 Assume $x(t)$ is of the form $x(t) = ae^{10t} + be^{-t} + ce^{t} + d$ where $a, b, c, $ and $d$ are
 constants to be determined. Then, $\frac{d}{dt}x(t) = -10ae^{-10t} - be^{-t} + ce^{t}$.
 \begin{flalign}
-\label{coeff}
+\label{sec:coeff}
     \frac{d}{dt} x(t) &= Ax(t)\\
     -10ae^{-10t} -be^{-t} +ce^{t} &= A(ae^{-10t}+be^{-t}+ce^{t} +d) + g
 \end{flalign}
 We then determine coefficient vectors $a, b, c, $and $d$ by matching up coefficients from
-\label{coeff}.
+\ref{sec:coeff}.
 \begin{flalign*}
     -10*a &= Aa\\
     -1*b &= Ab\\
@@ -450,7 +450,7 @@ specific variables. Then $a = x_1$, $b = x_2$, $c = x_3$, and $Ad = -g$.
     \end{array}\right]
 \end{align*}
 We can solve for $d$ quite simply through Octave by the command 
-\begin{verbatim}d = A\g\end{verbatim}.
+\begin{verbatim}d = A\g \end{verbatim}.
 \begin{align*}
     d = \left[\begin{array}{c}
         0.9\\
@@ -497,7 +497,64 @@ the first row of our solution $x(t)$.
 \includegraphics[scale=0.5]{problem_19_17.png}
 \end{center}
 
-% 19.17-19
+We should be able to solve this a Numerical way, too. Namely,
+\begin{flalign*}
+    x(t) &= e^{At}x(0)\\
+         &= (V e^D V^{-1})x(0)\\
+         &= (\left[\begin{array}{ccc}
+                v_1 &  v_2 & v_3
+             \end{array}\right]
+             \left[\begin{array}{ccc}
+             e^{-10t} & 0 & 0\\
+             0       & e^{-t} & 0\\
+             0       & 0      & e^t
+             \end{array}\right]
+             \left[\begin{array}{ccc}
+                v_1 & v_2 & v_3
+             \end{array}\right]^{-1})x(0)
+\end{flalign*}
+This reduces to solving \begin{verbatim} x = V * expm(D) * V^-1\end{verbatim}.
+Then, we line up our solution vectors, divide out the exponential terms
+(since our numerical method solved for when $t = 1$, we divide out $e^a$
+for the correct $a$ value. 
+\begin{align*}
+    x(t) = \left[\begin{array}{c}
+        -0.037936\\
+        -0.052971\\
+        0.0000016
+        \end{array}\right] e ^{-10t} + 
+        \left[\begin{array}{c}
+        3.1945\\
+        4.1945\\
+        0
+        \end{array}\right] e ^{-t} + 
+        \left[\begin{array}{c}
+        33989\\
+        25886\\
+        0
+        \end{array}\right] e ^t +
+        \left[ \begin{array}{c}
+        0.9\\
+        0\\
+        -0.1
+        \end{array}\right]
+\end{align*}
+We have to remember that there are an infinite number of solutions to this problem
+due to the nature of the infinite solutions to eigenvalues of $A$. This solution doesn't
+look exactly the same as our previous solution from the previous method of solving
+it, but it should be just as correct.
+
+Note: I also wonder about correctness of the solution: \begin{verbatim} x = 
+V * expm(D)\end{verbatim}. I really don't think it's necessary to multiply
+by the eigenvectors a second time. This is because each $v_i x_i$ already forms
+a fundemental set of solutions to the problem, so it should be sufficient
+to only multiply by $V$ instead of both $V$ and $V^{-1}$. Perhaps there is 
+some interesting ODE property going on here (since my ODE book agrees with
+simply solving the method expressed in this note).
+
+\section*{Exercise 19.18}
+
+% 19.18-19
 % Import Program 
 %\lstinputlisting{problem_17_1.m}
 % Import Graph
