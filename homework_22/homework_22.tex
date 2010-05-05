@@ -127,6 +127,117 @@ But this doesn't agree with our other equations.
 $\alpha = \beta = 1/2$ works for all polynomials up to and including $t^2$.
 When we reach the polynomial $t^3$, we need $\alpha = 1/3$, which conflicts for polynomials of lower degree.
 \section*{Exercise 22.6}
+
+Apply each method to:
+\begin{align*}
+    u'(t) = -25u(t)\\
+    t\geq t_0\\
+    u(t_0)=u_0.
+\end{align*}
+\subsubsection*{Trapezoidal Method}
+The trapezoidal method is given by:
+\begin{align*}
+    u_{j+1} = u_j + \frac{h}{2}(f(t_j, u_j) + f(t_{j+1}, u_{j+1})).
+\end{align*}
+We apply this rule for the function $f(t,u) = \lambda u$ and observe:
+\begin{flalign*}
+    u_{j+1} &= u_j + \frac{h}{2}(f(t_j, u_j) + f(t_{j+1}, u_{j+1}))\\
+            &= u_j + \frac{h}{2}(\lambda u_j + \lambda u_{j+1})\\
+            &= u_j + \frac{h}{2}\lambda u_j  + \frac{h}{2}\lambda u_{j+1})\\
+    u_{j+1} -\frac{h}{2} \lambda u_{j+1} &= u_j + \frac{h}{2}\lambda u_j\\ 
+    u_{j+1} (1 - \frac{h}{2} \lambda) &=    u_j + \frac{h}{2}\lambda u_j\\ 
+    u_{j+1} &=    u_j \frac{1 + \frac{h}{2}\lambda}{1 - \frac{h}{2} \lambda} \\ 
+    u_{j+1} &=    u_0 (\frac{1 + \frac{h}{2}\lambda}{1 - \frac{h}{2} \lambda})^j.
+\end{flalign*}
+This converges if and only if
+\begin{equation}
+    \label{eqn:converge}
+    \frac{1 + \frac{h}{2}\lambda}{1 - \frac{h}{2}\lambda} < 1.
+\end{equation}
+Since $h > 0$ and $\lambda < 0$, (\ref{eqn:converge}) is equivalent to
+\begin{align*}
+    1 + \frac{h}{2} \lambda < 1 - \frac{h}{2} \lambda\\
+    h \lambda < 0\\
+    -25 h < 0.
+\end{align*}
+In this case, it works for all positive $h$.
+
+\subsubsection*{Heun's Method}
+Heun's method is given by:
+\begin{align*}
+    u_{j+1} = u_j + \frac{h}{2}(f(t_j,u_j) + f(t_{j+1}, \hat{u_{j+1}})).
+\end{align*}
+Note that $\hat{u_{j+1}}$ is taken from Euler's method
+\begin{align*}
+    \hat{u_{j+1}} = u_j + hf(t_j,u_j). 
+\end{align*}
+Rewriting Heun's method, we get:
+\begin{align*}
+    u_{j+1} = u_j + \frac{h}{2}(f(t_j,u_j) + f(t_{j+1}, u_j + hf(t_j,u_j))).
+\end{align*}
+We apply this rule for our function given by $f(t,u) = \lambda u$ and observe:
+\begin{flalign*}
+    u_{j+1} &= u_j + \frac{h}{2}(f(t_j,u_j) + f(t_{j+1}, u_j + hf(t_j,u_j)))\\
+            &= u_j + \frac{h}{2}(f(t_j,u_j) + f(t_{j+1}, u_j + h \lambda u_j))\\
+            &= u_j + \frac{h}{2}(\lambda u_j + \lambda (u_j + h \lambda u_j))\\
+            &= u_j + \frac{h}{2}(2 \lambda u_j + h \lambda^2 u_j))\\
+            &= u_j + h \lambda u_j + \frac{h^2}{2} \lambda^2 u_j))\\
+            &= u_j(1  + h \lambda + \frac{h^2}{2} \lambda^2)\\
+            &= u_0(1  + h \lambda + \frac{h^2}{2} \lambda^2)^j.
+\end{flalign*}
+This converges if and only if
+\begin{flalign*}
+     1  + h \lambda + \frac{h^2}{2} \lambda^2 <& 1\\
+     2h \lambda + h^2 \lambda^2 <& 0\\
+     h\lambda(2 + h\lambda) <& 0.
+\end{flalign*}
+Since $h \lambda < 0$, we need $2 + h \lambda > 0$ to satisfy the inequality. Then,
+\begin{flalign*}
+     2 + h\lambda >& 0\\
+     h \lambda > -2\\
+     h < \frac{2}{25}.
+\end{flalign*}
+We get this from $\lambda = -25$. So, when $h < \frac{2}{25}$, Heun's method converges in this case.
+
+\subsubsection*{Example 22.7: Explicit Multistep Method}
+The Explicit Multistep Method from Example 22.7 is given by
+\begin{align*}
+    u_{j+1} = u_j + h(\alpha u_j' + \beta u_{j-1}').
+\end{align*}
+Use the fact that $u_l' = f(t_l, u_l) = \lambda u_l$, and apply this rule for $f(t,u) = \lambda u$.
+\begin{flalign*}
+    u_{j+1} &= u_j + h(\alpha u_j' + \beta u_{j-1}')\\
+            &= u_j + h(\alpha \lambda u_j + \beta \lambda u_{j-1})\\
+            &= u_j + h\alpha \lambda u_j + h\beta \lambda u_{j-1}.
+\end{flalign*}
+We can't solve explicitly for this function since it is implicit, but we can use our knowledge of the values
+of $u_j$ and $u_{j-1}$ to show that since $\lambda = -25$, we have a decreasing function. 
+Therefore, $u_j < u_{j-1}$. Now, we have an upper bound on our $u_{j+1}$ value.
+\begin{flalign*}
+    u_{j+1} &= u_j + h\alpha \lambda u_j + h\beta \lambda u_{j-1}\\
+            &<  u_{j-1} (1 + h \alpha \lambda + h \beta \lambda).
+\end{flalign*}
+This inequality is equal to
+\begin{align*}
+    u_0 ( 1 + h\alpha \lambda + h \beta \lambda)^{j-1}
+\end{align*}
+which converges if and only if
+\begin{flalign*}
+    1 + h\alpha \lambda + h \beta \lambda) &< 1\\
+    h\alpha \lambda + h \beta \lambda) &< 0\\
+    h\lambda(\alpha + \beta) &< 0\\
+    h(\alpha + \beta) &> 0.
+\end{flalign*}
+Notice the inequality was flipped since $\lambda = - 25$. So this converges if $h$ is positive and the 
+sum of the coefficients $\alpha + \beta$ is positive.
+
+\subsubsection*{Conclussions}
+The only method which required $h$ to be small was Heun's Method. Both the Trapezoidal Method and 
+the Explicit Multistep Method from Example 22.7 converged for all positive values of $h$ (so long 
+as the sum of the coefficients $\alpha + \beta$ was positive for the Explicit Multistep Method).
+Therefore, both the Trapezoidal Method and the Explicit Multistep Method allowed the largest step length
+by not setting any bounds on the size of $h$.
+
 \section*{Exercise 22.8}
 % Import Program 
 %\lstinputlisting{problem_17_1.m}
