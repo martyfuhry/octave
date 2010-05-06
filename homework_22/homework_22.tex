@@ -239,6 +239,61 @@ Therefore, both the Trapezoidal Method and the Explicit Multistep Method allowed
 by not setting any bounds on the size of $h$.
 
 \section*{Exercise 22.8}
+\begin{equation}
+    \label{228:u}
+    u'' - \epsilon (1 - u^2)u' + u = 0
+\end{equation}
+We begin by setting these up into a system of linear ordinary differential equations. Let $v = u'$, making 
+$v' = u''$. Then,
+\begin{align*}
+    \label{228:v}
+    v' = \epsilon(1 - u^2)v - u.
+\end{align*}
+We can build the following system  of equations based on (\ref{228:u}) and \ref{228:v}:
+\begin{flalign*}
+    \frac{d}{dt}\left[\begin{matrix}
+        u\\v
+        \end{matrix}\right]
+        =
+        \left[\begin{matrix}
+        v\\ \epsilon(1 - u^2)v - u
+        \end{matrix}\right]
+       = \left[\begin{matrix}
+       0 & 1\\
+       -1 & \epsilon(1 - u^2)
+       \end{matrix}\right]
+       \left[\begin{matrix}
+       u\\v
+       \end{matrix}\right]
+\end{flalign}
+We can use the \verb|lsode()| solver in Octave to solve the following function with $\epsilon = 1$.
+% Import Program 
+\lstinputlisting{f228.m}
+Run the following commands.
+\begin{verbatim}
+> y0 = [1/2 1/2]';
+> t  = linspace(0,25,500);
+> y  = lsode("f", y0, t);
+\end{verbatim}
+This makes a pretty nice looking graph.
+\begin{figure}
+\caption{Graph of (\ref{228}) with $\epsilon = 1$}
+\begin{center}
+    \includegraphics[scale=0.5]{problem_228_eps1_graph.png}
+\end{center}
+\end{figure}
+\begin{figure}
+\caption{Graph of (\ref{228}) with $\epsilon = .1$}
+\begin{center}
+    \includegraphics[scale=0.5]{problem_228_eps01_graph.png}
+\end{center}
+\end{figure}
+\begin{figure}
+\caption{Graph of (\ref{228}) with $\epsilon = .01$}
+\begin{center}
+    \includegraphics[scale=0.5]{problem_228_eps001_graph.png}
+\end{center}
+\end{figure}
 % Import Program 
 %\lstinputlisting{problem_17_1.m}
 
