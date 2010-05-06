@@ -8,7 +8,11 @@
 \usepackage{listings}
 \usepackage[fleqn]{amsmath}
 \usepackage{graphicx}
+\usepackage{subfig}
 \usepackage{amsthm}
+\addtolength{\textwidth}{2in}
+\addtolength{\oddsidemargin}{-1in}
+\addtolength{\evensidemargin}{1in}
 \begin{document}         
 % Start your text
 \newcommand{\makehomework}[2]%
@@ -231,7 +235,7 @@ which converges if and only if
 Notice the inequality was flipped since $\lambda = - 25$. So this converges if $h$ is positive and the 
 sum of the coefficients $\alpha + \beta$ is positive.
 
-\subsubsection*{Conclussions}
+\subsubsection*{Conclusions}
 The only method which required $h$ to be small was Heun's Method. Both the Trapezoidal Method and 
 the Explicit Multistep Method from Example 22.7 converged for all positive values of $h$ (so long 
 as the sum of the coefficients $\alpha + \beta$ was positive for the Explicit Multistep Method).
@@ -245,11 +249,11 @@ by not setting any bounds on the size of $h$.
 \end{equation}
 We begin by setting these up into a system of linear ordinary differential equations. Let $v = u'$, making 
 $v' = u''$. Then,
-\begin{align*}
+\begin{equation}
     \label{228:v}
     v' = \epsilon(1 - u^2)v - u.
-\end{align*}
-We can build the following system  of equations based on (\ref{228:u}) and \ref{228:v}:
+\end{equation}
+We can build the following system  of equations based on (\ref{228:u}) and (\ref{228:v}):
 \begin{flalign*}
     \frac{d}{dt}\left[\begin{matrix}
         u\\v
@@ -265,35 +269,93 @@ We can build the following system  of equations based on (\ref{228:u}) and \ref{
        \left[\begin{matrix}
        u\\v
        \end{matrix}\right]
-\end{flalign}
-We can use the \verb|lsode()| solver in Octave to solve the following function with $\epsilon = 1$.
+\end{flalign*}
+The following code can be used to model the system of ordinary differential equations.
 % Import Program 
 \lstinputlisting{f228.m}
+\subsubsection*{ODE Solver \emph{lsode}}
+We can use the \verb|lsode| solver in Octave to solve the following function with $\epsilon = 1$.
 Run the following commands.
 \begin{verbatim}
 > y0 = [1/2 1/2]';
 > t  = linspace(0,25,500);
 > y  = lsode("f", y0, t);
 \end{verbatim}
-This makes a pretty nice looking graph.
-\begin{figure}
-\caption{Graph of (\ref{228}) with $\epsilon = 1$}
+See the final pages for the graphs this method produced.
+Note the regularity of these graphs, especially for when $\epsilon = .1 $ and $\epsilon = .01$.
+The graphs are very normal without any "weird" nonstandard curves produced by the other methods.
+
+\subsubsection*{ODE Solver \emph{ode23}}
+The \verb|ode23| ODE Solver worked very well and produced a much more interesting set of graphs
+than the \verb|lsode| solver produced.
+The graphs for when $\epsilon = 1$ look nearly identical, but for the other two cases, we have a 
+very neat looking start conforming to a diverging (or so it seems) pattern in the oscillations.
+\subsubsection*{ODE Solver \emph{ode45}}
+This method produced perhaps the "second best looking" graphs next to the uniformly beautiful graphs
+that \verb|lsode| produced.
+These graphs still have sharp cusps, but for the most part they look neat and quite good without
+much bizarre oscillations like in \verb|ode23|.
+
+\subsubsection*{ODE Solver \emph{ode78}}
+Since Octave does not have a \verb|ode15| method (or at least, doesn't have one in the standard 
+odesolver package), I chose to use \verb|ode78| as a fourth example.
+This method produces the sharpest graphs of any of the solvers discussed here.
+Perhaps simply being the "highest order" solver of the bunch doesn't mean that it will produce
+the best looking graphs.
+
+\subsubsection*{Conclusions}
+The fastest solvers were probably \verb|ode45| and \verb|lsode|. The slowest solver may have been
+\verb|ode23|, though the computed examples here aren't quite big enough to provide a meaningful
+insight into the time complexity of the ODE Solvers' algorithms.
+In Octave's help files, I read that \verb|lsode| has both a relative and absolute tolerance of 1.49$\times 10 ^ {-8}$
+and uses a stiff integration method.
+The rest of the solvers, \verb|ode45|, \verb|ode23|, and \verb|ode78| all use a relative tolerance of $10^{-3}$.
+
 \begin{center}
-    \includegraphics[scale=0.5]{problem_228_eps1_graph.png}
-\end{center}
+\begin{figure}[h]
+    \subfloat[\emph{lsode}]{
+    \includegraphics[scale=0.4]{problem_228_eps1_graph.png}}
+    \subfloat[\emph{ode23}]{
+    \includegraphics[scale=0.4]{ode23_1.png}}
+
+    \subfloat[\emph{ode45}]{
+    \includegraphics[scale=0.4]{ode45_1.png}}
+    \subfloat[\emph{ode78}]{
+    \includegraphics[scale=0.4]{ode78_1.png}}
+    \caption{Graph of (\ref{228:v}) with $\epsilon = 1$}
 \end{figure}
-\begin{figure}
-\caption{Graph of (\ref{228}) with $\epsilon = .1$}
+\end{center}
+
 \begin{center}
-    \includegraphics[scale=0.5]{problem_228_eps01_graph.png}
-\end{center}
+\begin{figure}[h]
+    \subfloat[\emph{lsode}]{
+    \includegraphics[scale=0.4]{problem_228_eps01_graph.png}}
+    \subfloat[\emph{ode23}]{
+    \includegraphics[scale=0.4]{ode23_01.png}}
+
+    \subfloat[\emph{ode45}]{
+    \includegraphics[scale=0.4]{ode45_01.png}}
+    \subfloat[\emph{ode78}]{
+    \includegraphics[scale=0.4]{ode78_01.png}}
+    \caption{Graph of (\ref{228:v}) with $\epsilon = .1$}
 \end{figure}
-\begin{figure}
-\caption{Graph of (\ref{228}) with $\epsilon = .01$}
+\end{center}
+
 \begin{center}
-    \includegraphics[scale=0.5]{problem_228_eps001_graph.png}
-\end{center}
+\begin{figure}[h]
+    \subfloat[\emph{lsode}]{
+    \includegraphics[scale=0.4]{problem_228_eps001_graph.png}}
+    \subfloat[\emph{ode23}]{
+    \includegraphics[scale=0.4]{ode23_001.png}}
+
+    \subfloat[\emph{ode45}]{
+    \includegraphics[scale=0.4]{ode45_001.png}}
+    \subfloat[\emph{ode78}]{
+    \includegraphics[scale=0.4]{ode78_001.png}}
+    \caption{Graph of (\ref{228:v}) with $\epsilon = .01$}
 \end{figure}
+\end{center}
+
 % Import Program 
 %\lstinputlisting{problem_17_1.m}
 
